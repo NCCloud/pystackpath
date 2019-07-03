@@ -1,5 +1,5 @@
 from .util import BaseObject, PageInfo, pagination_query
-from.cdns import CdnSites
+from.cdnsites import CdnSites
 
 
 class Stacks(BaseObject):
