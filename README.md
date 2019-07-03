@@ -42,7 +42,9 @@ cdnsite = sd.stacks().get(stackid).cdnsites().create("cdn.johndoe.com", "www.joh
 
 ### Search for cdn sites
 ```python
-cdnsite = sd.stacks().get(stackid).cdnsites().index(filter="label='www.johndoe.com' and status='ACTIVE'")
+cdnsite = sd.stacks().get(stackid).cdnsites().index(
+    filter="label='www.johndoe.com' and status='ACTIVE'"
+)
 ```
 
 ### Delete a cdn site
