@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pystackpath",
-    version="0.0.1",
+    version="0.0.1-alpha1",
     author="Sandro Modarelli",
     author_email="sandro.modarelli@namecheap.com",
     description="A package to interact with StackPath",
