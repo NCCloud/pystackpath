@@ -43,14 +43,6 @@ class OAuth2Session(Session):
 class Stackpath(object):
     _clientid = ""
     _apisecret = ""
-    _accountid = ""
-    _token = {
-        'access_token': 'eswfld123kjhn1v5423',
-        'refresh_token': 'asdfkljh23490sdf',
-        'token_type': 'Bearer',
-        'expires_in': '-30',
-    }
-    _refresh_url = "{}/identity/v1/oauth2/token".format(BASE_URL)
 
     client = None
 
@@ -58,13 +50,9 @@ class Stackpath(object):
         self._clientid = clientid
         self._apisecret = apisecret
         self._init_client()
-        self._init_stacks()
 
     def _init_client(self):
-        self.client = OAuth2Session(self._clientid,self._apisecret)
+        self.client = OAuth2Session(self._clientid, self._apisecret)
 
-    def _init_stacks(self):
-        self.stacks = Stacks(self.client)
-
-    def _token_saver(self, token):
-        self._token = token
+    def stacks(self):
+        return Stacks(self.client)
