@@ -4,6 +4,12 @@ Python library interact with StackPath API (https://developer.stackpath.com/en/)
 
 It uses a custom OAuth2 requests.session
 
+## Install
+
+```bash
+pip install pystackpath
+```
+
 ## Examples
 
 ### Set up a new Stackpath instance
