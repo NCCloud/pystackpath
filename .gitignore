@@ -1,3 +1,9 @@
+# IDEs
 .idea
 venv
 .DS_store
+
+# Building tools
+build
+dist
+*.egg-info
