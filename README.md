@@ -15,7 +15,7 @@ pip install pystackpath
 ### Set up a new Stackpath instance
 ```python
 from pystackpack import Stackpath
- 
+
 sp = Stackpath(
     os.getenv("STACKPATH_CLIENTID"),
     os.getenv("STACKPATH_APISECRET")
@@ -57,4 +57,23 @@ cdnsite = sd.stacks().get(stackid).cdnsites().index(
 ```python
 cdnsiteid = "19e1a7b2-068f-491c-a95f-b64eae66dd34"
 cdnsite = sd.stacks().get(stackid).cdnsites().get(cdnsiteid).delete()
+```
+
+### Purge a cdn resource
+```python
+purge_result1 = sd.stacks().get(stackid).cdnsites().purge(
+    url="https://example.com/resource/",
+)
+
+## Function accepts the arguments shown below with their respective
+## default values. See API Doc for more information on options:
+## https://developer.stackpath.com/en/api/cdn/#operation/PurgeContent
+purge_result2 = sd.stacks().get(stackid).cdnsites().purge(
+    url="https://example.com/",
+    recursive = True,
+    invalidateOnly = False,
+    purgeAllDynamic = False,
+    headers = [],
+    purgeSelector = []
+)
 ```
