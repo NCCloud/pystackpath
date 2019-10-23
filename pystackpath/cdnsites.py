@@ -54,8 +54,15 @@ class CdnSites(BaseObject):
                 }
             ]
         }
-        
+
         response = self._client.post("/cdn/v1/stacks/{}/purge".format(self._parent_id), json = data)
+        response.raise_for_status()
+
+        return self.loaddict(response.json())
+
+    def purge_status(self, purge_id):
+
+        response = self._client.get(f"/cdn/v1/stacks/{self._parent_id}/purge/{purge_id}")
         response.raise_for_status()
 
         return self.loaddict(response.json())

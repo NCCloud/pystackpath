@@ -59,7 +59,7 @@ cdnsiteid = "19e1a7b2-068f-491c-a95f-b64eae66dd34"
 cdnsite = sd.stacks().get(stackid).cdnsites().get(cdnsiteid).delete()
 ```
 
-### Purge a cdn resource
+### Purge a cdn resource and check the purge status.
 ```python
 purge_result1 = sd.stacks().get(stackid).cdnsites().purge(
     url="https://example.com/resource/",
@@ -75,5 +75,14 @@ purge_result2 = sd.stacks().get(stackid).cdnsites().purge(
     purgeAllDynamic = False,
     headers = [],
     purgeSelector = []
+
+## purge_status can be used to check the status of the requested purge.
+## Progress is represented as a decimal between 0 and 1, correlating to a
+## percentage.
+
+purge_status_response1 = sd.stacks().get(stackid).cdnsites().purge_status(purge_result1.id)
+print(purge_status_response1.progress)
+##>> 1
+
 )
 ```
