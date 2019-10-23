@@ -79,7 +79,7 @@ purge_result2 = sd.stacks().get(stackid).cdnsites().purge(
     purgeAllDynamic = False,
     headers = [],
     purgeSelector = []
-
+)
 ## purge_status can be used to check the status of the requested purge.
 ## Progress is represented as a decimal between 0 and 1, correlating to a
 ## percentage.
@@ -88,5 +88,25 @@ purge_status_response1 = sd.stacks().get(stackid).cdnsites().purge_status(purge_
 print(purge_status_response1.progress)
 ##>> 1
 
-)
+```
+
+## Get metrics for a stack:
+```python
+metrics_response1 = sd.stacks().get(stackid).metrics().get()
+
+## Python datetime objects can be used to specify a date range, and the call
+## allows a granularity to be specified. If no values are provided, the search range
+## defaults to the last 24 hours, with 1 day granularity. See API doc for options.
+## https://developer.stackpath.com/en/api/cdn/#operation/GetMetrics
+## There is also a "platforms" argument which takes an array of "platform" codes.
+## However the dev guide linked below only lists "CDE" which tracks egress traffic, which is
+## how Stackpath bills for CDN usage, and "CDO" which is ingest traffic from the
+## origin host, but is not billed. Since "CDE" tracks billable usage, it is the
+## default.
+## https://developer.stackpath.com/docs/en/cdn/getting-stack-metrics/
+from datetime import datetime, timedelta
+end = datetime.today()
+start = end - timedelta(days=7)
+metrics_response2 = sd.stacks().get(stackid).metrics().get(granularity="PT1H",\
+  platforms = ["CDO", "CDE"], start_datetime_object = start, end_datetime_object = end)
 ```
