@@ -1,4 +1,8 @@
 # PyStackpath
+[![Actions Status](https://github.com/NCCloud/pystackpath/workflows/Upload%20Python%20Package/badge.svg)](https://github.com/NCCloud/pystackpath/actions)
+[![Python Version](https://img.shields.io/pypi/pyversions/pystackpath)](https://pypi.org/project/pystackpath/)
+[![Pypi license](https://img.shields.io/pypi/l/pystackpath)](https://pypi.org/project/pystackpath/)
+[![GitHub stars](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/NCCloud/pystackpath/compare)
 
 Python library interact with StackPath API (https://developer.stackpath.com/en/)
 
