@@ -12,6 +12,21 @@
 
 *   None
 
+# Version 0.0.3-rc1
+
+## Major Features and Improvements
+
+*   CDN Purge Status
+*   Package deploy with Github actions
+
+## Bug fixes and other changes
+
+*   None
+
+### Deprecations
+
+*   None
+
 # Version 0.0.2
 
 ## Major Features and Improvements
