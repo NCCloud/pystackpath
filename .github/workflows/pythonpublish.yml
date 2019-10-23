@@ -22,6 +22,7 @@ jobs:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
-        sed -i "s|RELEASE_VERSION|${GITHUB_REF/refs-tags-/}|g" setup.py
+        echo "Deploying version ${GITHUB_REF/refs_tags_/}"
+        sed -i "s|RELEASE_VERSION|${GITHUB_REF/refs_tags_/}|g" setup.py
         python setup.py sdist bdist_wheel
         twine upload dist/*
