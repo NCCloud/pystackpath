@@ -79,6 +79,15 @@ purge_result2 = sd.stacks().get(stackid).cdnsites().purge(
     purgeAllDynamic = False,
     headers = [],
     purgeSelector = []
+
+## purge_status can be used to check the status of the requested purge.
+## Progress is represented as a decimal between 0 and 1, correlating to a
+## percentage.
+
+purge_status_response1 = sd.stacks().get(stackid).cdnsites().purge_status(purge_result1.id)
+print(purge_status_response1.progress)
+##>> 1
+
 )
 ## purge_status can be used to check the status of the requested purge.
 ## Progress is represented as a decimal between 0 and 1, correlating to a
