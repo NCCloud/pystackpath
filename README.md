@@ -18,7 +18,7 @@ pip install pystackpath
 
 ### Set up a new Stackpath instance
 ```python
-from pystackpack import Stackpath
+from pystackpath import Stackpath
 
 sp = Stackpath(
     os.getenv("STACKPATH_CLIENTID"),
@@ -35,7 +35,7 @@ print(stacks)
 ### Get one stack
 ```python
 stackid = "afcdaf14-47cb-40dd-9c13-3b20e6caf74a
-onestack = sd.stacks().get(stackid)
+onestack = sp.stacks().get(stackid)
 ```
 
 ### Create a new stack
@@ -47,12 +47,12 @@ newstack = sp.stacks().create(accountid, "my-second-stack")
 ### Create a cdn site
 ```python
 stackid = "afcdaf14-47cb-40dd-9c13-3b20e6caf74a
-cdnsite = sd.stacks().get(stackid).cdnsites().create("cdn.johndoe.com", "www.johndoe.com")
+cdnsite = sp.stacks().get(stackid).cdnsites().create("cdn.johndoe.com", "www.johndoe.com")
 ```
 
 ### Search for cdn sites
 ```python
-cdnsite = sd.stacks().get(stackid).cdnsites().index(
+cdnsite = sp.stacks().get(stackid).cdnsites().index(
     filter="label='www.johndoe.com' and status='ACTIVE'"
 )
 ```
@@ -60,19 +60,19 @@ cdnsite = sd.stacks().get(stackid).cdnsites().index(
 ### Delete a cdn site
 ```python
 cdnsiteid = "19e1a7b2-068f-491c-a95f-b64eae66dd34"
-cdnsite = sd.stacks().get(stackid).cdnsites().get(cdnsiteid).delete()
+cdnsite = sp.stacks().get(stackid).cdnsites().get(cdnsiteid).delete()
 ```
 
 ### Purge a cdn resource and check the purge status.
 ```python
-purge_result1 = sd.stacks().get(stackid).cdnsites().purge(
+purge_result1 = sp.stacks().get(stackid).cdnsites().purge(
     url="https://example.com/resource/",
 )
 
 ## Function accepts the arguments shown below with their respective
 ## default values. See API Doc for more information on options:
 ## https://developer.stackpath.com/en/api/cdn/#operation/PurgeContent
-purge_result2 = sd.stacks().get(stackid).cdnsites().purge(
+purge_result2 = sp.stacks().get(stackid).cdnsites().purge(
     url="https://example.com/",
     recursive = True,
     invalidateOnly = False,
@@ -93,7 +93,7 @@ print(purge_status_response1.progress)
 ## Progress is represented as a decimal between 0 and 1, correlating to a
 ## percentage.
 
-purge_status_response1 = sd.stacks().get(stackid).cdnsites().purge_status(purge_result1.id)
+purge_status_response1 = sp.stacks().get(stackid).cdnsites().purge_status(purge_result1.id)
 print(purge_status_response1.progress)
 ##>> 1
 
@@ -101,7 +101,7 @@ print(purge_status_response1.progress)
 
 ## Get metrics for a stack:
 ```python
-metrics_response1 = sd.stacks().get(stackid).metrics().get()
+metrics_response1 = sp.stacks().get(stackid).metrics().get()
 
 ## Python datetime objects can be used to specify a date range, and the call
 ## allows a granularity to be specified. If no values are provided, the search range
@@ -116,6 +116,30 @@ metrics_response1 = sd.stacks().get(stackid).metrics().get()
 from datetime import datetime, timedelta
 end = datetime.today()
 start = end - timedelta(days=7)
-metrics_response2 = sd.stacks().get(stackid).metrics().get(granularity="PT1H",\
+metrics_response2 = sp.stacks().get(stackid).metrics().get(granularity="PT1H",\
   platforms = ["CDO", "CDE"], start_datetime_object = start, end_datetime_object = end)
+```
+## Retrieve all certificates from a stack:
+```python
+certificate_response = sp.stacks().get(stackid).certificates()
+
+ ##The object returned will have a 'results' attribute containing
+ ##an array of the available certificates:
+ first_certificate = certificate_response['results'][0]
+ second_certificate = certificate_response['results'][1]
+```
+
+## Add, update and delete a certificate for a stack:
+```python
+##The cert and key are required, CA bundle is optional.
+new_cert_response = sp.stacks().get(stackid).certificates().add(\
+SERVER_CERTIFICATE_STRING, PRIVATE_KEY_STRING, CA_BUNDLE_STRING)
+##The new cert ID can be retrieved from the returned object:
+cert_id = new_cert_response.id
+
+##To update a cert:
+sp.stacks().get(stackid).certificates().update(cert_id, UPDATED_CERT_STRING, UPDATED_KEY_STRING)
+
+##To delete a cert:
+delete_cert_response = sp.stacks().get(stackid).certificates().delete(cert_id)
 ```

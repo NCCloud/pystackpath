@@ -19,3 +19,45 @@ class Certificates(BaseObject):
             response.raise_for_status()
 
             return response
+
+
+        def add(self, certificate_string, key_string, ca_bundle_string = None):
+
+            data = {
+                "certificate" : certificate_string,
+                "key" : key_string,
+                "caBundle" : ca_bundle_string
+            }
+
+            response = self._client.post(f"/cdn/v1/stacks/{self._parent_id}/certificates", json = data)
+            response.raise_for_status()
+
+            return self.loaddict(response.json()["certificate"])
+
+        def delete(self, certificate_id):
+
+            response = self._client.delete(f"/cdn/v1/stacks/{self._parent_id}/certificates/{certificate_id}" )
+            response.raise_for_status()
+
+            return self
+
+        def update(self, certificate_id, certificate_string = None, key_string = None, ca_bundle_string = None):
+
+            data = {
+                "certificate" : certificate_string,
+                "key" : key_string,
+                "caBundle" : ca_bundle_string
+            }
+
+            response = self._client.put(f"/cdn/v1/stacks/{self._parent_id}/certificates/{certificate_id}",
+                json = data )
+            response.raise_for_status()
+
+            return self.loaddict(response.json()["certificate"])
+
+        def renew(self, certificate_id):
+
+            response = self._client.post(f"/cdn/v1/stacks/{self._parent_id}/certificates/{certificate_id}/renew")
+            response.raise_for_status()
+
+            return response
