@@ -2,6 +2,7 @@ from .util import BaseObject, PageInfo, pagination_query, api_time_format
 from datetime import datetime as dt
 from datetime import timedelta
 
+
 class Metrics(BaseObject):
 
     def get(self, granularity="P1D", start_datetime_object=None, end_datetime_object=None, platforms=["CDE"]):

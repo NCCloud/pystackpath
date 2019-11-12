@@ -76,14 +76,14 @@ cdnsite = cdnsite.enable()
 
 ### Purge a cdn resource and check the purge status.
 ```python
-purge_result1 = sp.stacks().get(stackid).cdnsites().purge(
+purge_result1 = sp.stacks().get(stackid).purge(
     url="https://example.com/resource/",
 )
 
 ## Function accepts the arguments shown below with their respective
 ## default values. See API Doc for more information on options:
 ## https://developer.stackpath.com/en/api/cdn/#operation/PurgeContent
-purge_result2 = sp.stacks().get(stackid).cdnsites().purge(
+purge_result2 = sp.stacks().get(stackid).purge(
     url="https://example.com/",
     recursive = True,
     invalidateOnly = False,
@@ -95,7 +95,7 @@ purge_result2 = sp.stacks().get(stackid).cdnsites().purge(
 ## Progress is represented as a decimal between 0 and 1, correlating to a
 ## percentage.
 
-purge_status_response1 = sd.stacks().get(stackid).cdnsites().purge_status(purge_result1.id)
+purge_status_response1 = sd.stacks().get(stackid).purge_status(purge_result1.id)
 print(purge_status_response1.progress)
 ##>> 1
 
@@ -104,7 +104,7 @@ print(purge_status_response1.progress)
 ## Progress is represented as a decimal between 0 and 1, correlating to a
 ## percentage.
 
-purge_status_response1 = sp.stacks().get(stackid).cdnsites().purge_status(purge_result1.id)
+purge_status_response1 = sp.stacks().get(stackid).purge_status(purge_result1.id)
 print(purge_status_response1.progress)
 ##>> 1
 
