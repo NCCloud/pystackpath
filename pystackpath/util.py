@@ -36,6 +36,13 @@ class BaseObject(object):
             setattr(instance, key, value)
         return instance
 
+    def dumpdict(self) -> dict:
+        d = dict()
+        for key, value in self.__dict__.items():
+            if not key.startswith('_'):
+                d[key] = value
+        return d
+
 
 def pagination_query(first="", after="", filter="", sort_by=""):
     params = dict()

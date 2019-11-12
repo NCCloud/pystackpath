@@ -1,10 +1,10 @@
-# PyStackpath
+# PyStackpath - StackPath Python Library
 [![Actions Status](https://github.com/NCCloud/pystackpath/workflows/Upload%20Python%20Package/badge.svg)](https://github.com/NCCloud/pystackpath/actions)
 [![Python Version](https://img.shields.io/pypi/pyversions/pystackpath)](https://pypi.org/project/pystackpath/)
 [![Pypi license](https://img.shields.io/pypi/l/pystackpath)](https://pypi.org/project/pystackpath/)
 [![GitHub stars](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/NCCloud/pystackpath/blob/master/CONTRIBUTING.md)
 
-Python library interact with StackPath API (https://developer.stackpath.com/en/)
+Python library interact with StackPath API (https://stackpath.dev/reference)
 
 It uses a custom OAuth2 requests.session
 
@@ -47,7 +47,11 @@ newstack = sp.stacks().create(accountid, "my-second-stack")
 ### Create a cdn site
 ```python
 stackid = "afcdaf14-47cb-40dd-9c13-3b20e6caf74a
-cdnsite = sp.stacks().get(stackid).cdnsites().create("cdn.johndoe.com", "www.johndoe.com")
+cdnsite = sp.stacks().get(stackid).cdnsites().create(
+    domain="cdn.johndoe.com",
+    origin={"hostname": "www.johndoe.com"},
+    type="CDN"
+)
 ```
 
 ### Search for cdn sites
@@ -61,6 +65,13 @@ cdnsite = sp.stacks().get(stackid).cdnsites().index(
 ```python
 cdnsiteid = "19e1a7b2-068f-491c-a95f-b64eae66dd34"
 cdnsite = sp.stacks().get(stackid).cdnsites().get(cdnsiteid).delete()
+```
+
+### Disable and enable a cdn site
+```python
+cdnsiteid = "19e1a7b2-068f-491c-a95f-b64eae66dd34"
+cdnsite = sp.stacks().get(stackid).cdnsites().get(cdnsiteid).enable()
+cdnsite = cdnsite.enable()
 ```
 
 ### Purge a cdn resource and check the purge status.
