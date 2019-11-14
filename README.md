@@ -76,38 +76,26 @@ cdnsite = cdnsite.enable()
 
 ### Purge a cdn resource and check the purge status.
 ```python
-purge_result1 = sp.stacks().get(stackid).purge(
-    url="https://example.com/resource/",
+purge_request_id = sp.stacks().get(stackid).purge(
+    [
+        {
+            "url": "https://example.com/resource/", # required
+            "recursive": True,
+            "invalidateOnly": False,
+            "purgeAllDynamic": False,
+            "headers": [],
+            "purgeSelector": [],
+        }
+    ]
 )
-
-## Function accepts the arguments shown below with their respective
-## default values. See API Doc for more information on options:
-## https://developer.stackpath.com/en/api/cdn/#operation/PurgeContent
-purge_result2 = sp.stacks().get(stackid).purge(
-    url="https://example.com/",
-    recursive = True,
-    invalidateOnly = False,
-    purgeAllDynamic = False,
-    headers = [],
-    purgeSelector = []
 
 ## purge_status can be used to check the status of the requested purge.
 ## Progress is represented as a decimal between 0 and 1, correlating to a
 ## percentage.
 
-purge_status_response1 = sd.stacks().get(stackid).purge_status(purge_result1.id)
-print(purge_status_response1.progress)
+progress = sp.stacks().get(stackid).purge_status(purge_request_id)
+print(progress)
 ##>> 1
-
-)
-## purge_status can be used to check the status of the requested purge.
-## Progress is represented as a decimal between 0 and 1, correlating to a
-## percentage.
-
-purge_status_response1 = sp.stacks().get(stackid).purge_status(purge_result1.id)
-print(purge_status_response1.progress)
-##>> 1
-
 ```
 
 ## Get metrics for a stack:
@@ -130,6 +118,7 @@ start = end - timedelta(days=7)
 metrics_response2 = sp.stacks().get(stackid).metrics().get(granularity="PT1H",\
   platforms = ["CDO", "CDE"], start_datetime_object = start, end_datetime_object = end)
 ```
+
 ## Retrieve all certificates from a stack:
 ```python
 certificate_response = sp.stacks().get(stackid).certificates()

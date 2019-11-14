@@ -60,7 +60,12 @@ class Stacks(BaseObject):
         response.raise_for_status()
         return self
 
-    def purge(self, items: list):
+    def purge(self, items: list) -> str:
+        """
+        Purge cached content for all CDN sites on a stack
+        :param items: The items to purge from the CDN.
+        :return: The purge request's ID.
+        """
         data = {
             "items": items
         }
@@ -68,14 +73,18 @@ class Stacks(BaseObject):
         response = self._client.post("/cdn/v1/stacks/{}/purge".format(self.id), json=data)
         response.raise_for_status()
 
-        return self.loaddict(response.json())
+        return response.json()["id"]
 
-    def purge_status(self, purge_id):
-
+    def purge_status(self, purge_id) -> float:
+        """
+        Retrieve a purge request's status
+        :param purge_id: The ID of the purge request to check the status of
+        :return: The purge request's progress, ranging from 0.0 to 1.0.
+        """
         response = self._client.get(f"/cdn/v1/stacks/{self.id}/purge/{purge_id}")
         response.raise_for_status()
 
-        return self.loaddict(response.json())
+        return response.json()["progress"]
 
     def cdnsites(self):
         return CdnSites(self._client, self.id)
