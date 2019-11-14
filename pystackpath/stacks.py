@@ -60,24 +60,9 @@ class Stacks(BaseObject):
         response.raise_for_status()
         return self
 
-    def purge(self, url, recursive=True, invalidateOnly=False, purgeAllDynamic=False, headers=[], purgeSelector=[]):
-        purgeSelectors = ["selectorType", "selectorName", "selectorValue", "selectorValueDelimter"]
-
-        for value in purgeSelector:
-            if not value in purgeSelectors:
-                raise ValueError(f"{value} is not a valid purgeSelector: {purgeSelectors}")
-
+    def purge(self, items: list):
         data = {
-            "items": [
-                {
-                    "url": url,
-                    "recursive": recursive,
-                    "headers": headers,
-                    "invalidateOnly": invalidateOnly,
-                    "purgeAllDynamic": purgeAllDynamic,
-                    "purgeSelector": purgeSelector
-                }
-            ]
+            "items": items
         }
 
         response = self._client.post("/cdn/v1/stacks/{}/purge".format(self.id), json=data)
