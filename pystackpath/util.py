@@ -9,8 +9,7 @@ class PageInfo(object):
                  hasPreviousPage=False,
                  hasNextPage="",
                  startCursor="",
-                 endCursor=""
-    ):
+                 endCursor=""):
         self.totalCount = totalCount
         self.hasPreviousPage = hasPreviousPage
         self.hasNextPage = hasNextPage
@@ -56,6 +55,7 @@ def pagination_query(first="", after="", filter="", sort_by=""):
         params["page_request.first"] = sort_by
 
     return params
+
 
 def api_time_format(datetime_object):
     return datetime_object.strftime("%Y-%m-%dT%H:%M:%SZ")
