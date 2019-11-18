@@ -1,22 +1,12 @@
-from .util import BaseObject, PageInfo, pagination_query
+from pystackpath.util import BaseSite
 
 
-class CdnSites(BaseObject):
+class CdnSites(BaseSite):
     def index(self, first="", after="", filter="", sort_by=""):
-        pagination = pagination_query(first=first, after=after, filter=filter, sort_by=sort_by)
-        response = self._client.get("/cdn/v1/stacks/{}/sites".format(self._parent_id), params=pagination)
-        response.raise_for_status()
-        items = []
-        for item in response.json()["results"]:
-            items.append(self.loaddict(item))
-        pageinfo = PageInfo(**response.json()["pageInfo"])
-
-        return {"results": items, "pageinfo": pageinfo}
+        return super(CdnSites, self).index(first="", after="", filter="", sort_by="")
 
     def get(self, site_id):
-        response = self._client.get("/cdn/v1/stacks/{}/sites/{}".format(self._parent_id, site_id))
-        response.raise_for_status()
-        return self.loaddict(response.json()["site"])
+        return super(CdnSites, self).get(site_id)
 
     def create(self, **payload):
         """
@@ -41,28 +31,21 @@ class CdnSites(BaseObject):
                            API: A site is an API delivery site. API delivery sites are powered by both the WAF and CDN
                                 and have custom rulesets for each.
         """
-        response = self._client.post(
-            "/cdn/v1/stacks/{}/sites".format(self._parent_id),
-            json=payload
-        )
-        response.raise_for_status()
-        return self.loaddict(response.json()["site"])
+        return super(CdnSites, self).create(**payload)
 
     def delete(self):
         """
         Delete a CDN site
         :return: a stackpath site object with the deleted cdn site
         """
-        response = self._client.delete("/cdn/v1/stacks/{}/sites/{}".format(self._parent_id, self.id))
-        response.raise_for_status()
-        return self
+        return super(CdnSites, self).delete()
 
     def disable(self):
         """
         Disable a CDN site
         :return: a stackpath site object with the disabled cdn site
         """
-        response = self._client.post("/cdn/v1/stacks/{}/sites/{}/disable".format(self._parent_id, self.id))
+        response = self._client.post(f"{self._base_api}/sites/{self.id}/disable")
         response.raise_for_status()
         return self
 
@@ -71,6 +54,6 @@ class CdnSites(BaseObject):
         Enable a CDN site
         :return: a stackpath site object with the enabled cdn site
         """
-        response = self._client.post("/cdn/v1/stacks/{}/sites/{}/enable".format(self._parent_id, self.id))
+        response = self._client.post(f"{self._base_api}/sites/{self.id}/enable")
         response.raise_for_status()
         return self

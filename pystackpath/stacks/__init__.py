@@ -1,7 +1,8 @@
-from .util import BaseObject, PageInfo, pagination_query
-from .cdnsites import CdnSites
-from .metrics import Metrics
-from .certificates import Certificates
+from pystackpath.util import BaseObject, PageInfo, pagination_query
+from pystackpath.stacks.cdnsites import CdnSites
+from pystackpath.stacks.deliverysites import DeliverySites
+from pystackpath.stacks.metrics import Metrics
+from pystackpath.stacks.certificates import Certificates
 
 
 class Stacks(BaseObject):
@@ -17,7 +18,7 @@ class Stacks(BaseObject):
         return {"results": items, "pageinfo": pageinfo}
 
     def get(self, stack_id):
-        response = self._client.get("/stack/v1/stacks/{}".format(stack_id))
+        response = self._client.get(f"/stack/v1/stacks/{stack_id}")
         response.raise_for_status()
         return self.loaddict(response.json())
 
@@ -29,7 +30,7 @@ class Stacks(BaseObject):
 
     def add_subscriptions(self, subscriptions: list):
         response = self._client.post(
-            "/billing/v1/stacks/{}/subscriptions".format(self.id),
+            f"/billing/v1/stacks/{self.id}/subscriptions",
             json={
                 "productIds": subscriptions
             }
@@ -51,7 +52,7 @@ class Stacks(BaseObject):
             raise ValueError('Invalid reason slug')
 
         response = self._client.post(
-            "/billing/v1/stacks/{}/cancel".format(self.id),
+            f"/billing/v1/stacks/{self.id}/cancel",
             json={
                 "reasonSlug": reason_slug,
                 "reasonText": reason_text
@@ -70,7 +71,7 @@ class Stacks(BaseObject):
             "items": items
         }
 
-        response = self._client.post("/cdn/v1/stacks/{}/purge".format(self.id), json=data)
+        response = self._client.post(f"/cdn/v1/stacks/{self.id}/purge", json=data)
         response.raise_for_status()
 
         return response.json()["id"]
@@ -86,11 +87,14 @@ class Stacks(BaseObject):
 
         return response.json()["progress"]
 
+    def deliverysites(self):
+        return DeliverySites(self._client, f"/delivery/v1/stacks/{self.id}")
+
     def cdnsites(self):
-        return CdnSites(self._client, self.id)
+        return CdnSites(self._client, f"/cdn/v1/stacks/{self.id}")
 
     def metrics(self):
-        return Metrics(self._client, self.id)
+        return Metrics(self._client, f"/cdn/v1/stacks/{self.id}")
 
     def certificates(self):
-        return Certificates(self._client, self.id)
+        return Certificates(self._client, f"/cdn/v1/stacks/{self.id}")

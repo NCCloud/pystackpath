@@ -1,4 +1,4 @@
-from .util import BaseObject, api_time_format
+from pystackpath.util import BaseObject, api_time_format
 from datetime import datetime as dt
 from datetime import timedelta
 
@@ -24,7 +24,7 @@ class Metrics(BaseObject):
             raise ValueError(f"Search start date, \"{start_date_iso}\", is later than end date, \"{end_date_iso}\"!")
 
         response = self._client.get(
-            f"/cdn/v1/stacks/{self._parent_id}/metrics",
+            f"{self._base_api}/metrics",
             params={
                 "start_date": start_date_iso,
                 "end_date": end_date_iso,

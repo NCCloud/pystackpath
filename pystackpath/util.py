@@ -19,18 +19,19 @@ class PageInfo(object):
 
 class BaseObject(object):
     _client = None
+    _base_api = ""
 
-    def __init__(self, client, parent_id=0):
+    def __init__(self, client, base_api: str = ""):
         self._client = client
-        self._parent_id = parent_id
+        self._base_api = base_api
 
     @classmethod
-    def newinstance(cls, client, parent_id=0):
-        instance = cls(client, parent_id)
+    def newinstance(cls, client, base_api: str = ""):
+        instance = cls(client, base_api)
         return instance
 
     def loaddict(self, d):
-        instance = self.newinstance(self._client, self._parent_id)
+        instance = self.newinstance(self._client, self._base_api)
         for key, value in d.items():
             setattr(instance, key, value)
         return instance
@@ -41,6 +42,52 @@ class BaseObject(object):
             if not key.startswith('_'):
                 d[key] = value
         return d
+
+
+class BaseSite(BaseObject):
+    def index(self, first="", after="", filter="", sort_by=""):
+        pagination = pagination_query(first=first, after=after, filter=filter, sort_by=sort_by)
+        response = self._client.get(f"{self._base_api}/sites", params=pagination)
+        response.raise_for_status()
+        items = []
+        for item in response.json()["results"]:
+            items.append(self.loaddict(item))
+        pageinfo = PageInfo(**response.json()["pageInfo"])
+
+        return {"results": items, "pageinfo": pageinfo}
+
+    def get(self, site_id):
+        response = self._client.get(f"{self._base_api}/sites/{site_id}")
+        response.raise_for_status()
+        return self.loaddict(response.json()["site"])
+
+    def create(self, **payload):
+        """
+        Create a new site
+        :param payload: dict according to https://stackpath.dev/reference/sites#createsite-1
+        :return: dict with created site
+        String	id         A CDN site's unique identifier.
+        String	stackId    The ID of the stack to which a CDN site belongs.
+        String	label      A CDN site's name. Site names correspond to their fully-qualified domain name.
+        String	status     A CDN site's internal state. Site status is controlled by StackPath as sites
+                           are provisioned and managed by StackPath's accounting and security teams.
+        String	createdAt  The date that a CDN site was created.
+        String	updatedAt  The date that a CDN site was last updated.
+        List	features   A CDN site's associated features.
+                           Features control how StackPath provisions and configures a site.
+        """
+        response = self._client.post(f"{self._base_api}/sites", json=payload)
+        response.raise_for_status()
+        return self.loaddict(response.json()["site"])
+
+    def delete(self):
+        """
+        Delete a CDN site
+        :return: a stackpath site object with the deleted cdn site
+        """
+        response = self._client.delete(f"{self._base_api}/sites/{self.id}")
+        response.raise_for_status()
+        return self
 
 
 def pagination_query(first="", after="", filter="", sort_by=""):
