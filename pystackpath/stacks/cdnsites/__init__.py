@@ -1,4 +1,5 @@
 from pystackpath.util import BaseSite
+from pystackpath.stacks.cdnsites.scopes import Scopes
 
 
 class CdnSites(BaseSite):
@@ -57,3 +58,6 @@ class CdnSites(BaseSite):
         response = self._client.post(f"{self._base_api}/sites/{self.id}/enable")
         response.raise_for_status()
         return self
+
+    def scopes(self):
+        return Scopes(self._client, f"{self._base_api}/sites/{self.id}")
