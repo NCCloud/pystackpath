@@ -1,3 +1,4 @@
+import json
 from pystackpath.util import BaseObject, pagination_query, PageInfo
 
 
@@ -17,6 +18,6 @@ class Configuration(BaseObject):
         :param payload: dict according to https://stackpath.dev/reference/configuration#updatescopeconfiguration
         :return: dict with new configuration
         """
-        response = self._client.post(f"{self._base_api}/configuration", json=payload)
+        response = self._client.patch(f"{self._base_api}/configuration", data=json.dumps(payload))
         response.raise_for_status()
         return self.loaddict(response.json()["configuration"])
