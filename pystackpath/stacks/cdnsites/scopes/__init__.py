@@ -1,5 +1,6 @@
-from pystackpath.util import BaseObject, pagination_query, PageInfo
 from pystackpath.stacks.cdnsites.scopes.configuration import Configuration
+from pystackpath.stacks.cdnsites.scopes.origins import Origins
+from pystackpath.util import BaseObject, pagination_query, PageInfo
 
 
 class Scopes(BaseObject):
@@ -46,3 +47,11 @@ class Scopes(BaseObject):
 
     def configuration(self):
         return Configuration(self._client, f"{self._base_api}/scopes/{self.id}")
+
+    def origins(self):
+        """
+        Handling Origin resources attached to the current scope.
+
+        :return:
+        """
+        return Origins(self._client, f"{self._base_api}/scopes/{self.id}/origins")
