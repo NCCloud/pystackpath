@@ -1,6 +1,7 @@
 from pystackpath.util import BaseObject, PageInfo, pagination_query
 from pystackpath.stacks.cdnsites import CdnSites
 from pystackpath.stacks.deliverysites import DeliverySites
+from pystackpath.stacks.wafsites import WafSites
 from pystackpath.stacks.metrics import Metrics
 from pystackpath.stacks.certificates import Certificates
 
@@ -92,6 +93,9 @@ class Stacks(BaseObject):
 
     def cdnsites(self):
         return CdnSites(self._client, f"/cdn/v1/stacks/{self.id}")
+
+    def wafsites(self):
+        return WafSites(self._client, f"/waf/v1/stacks/{self.id}")
 
     def metrics(self):
         return Metrics(self._client, f"/cdn/v1/stacks/{self.id}")
