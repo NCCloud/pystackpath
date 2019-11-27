@@ -12,7 +12,7 @@ class Rules(BaseObject):
         response = self._client.get(f"{self._base_api}/rules",
                                     params=pagination)
         response.raise_for_status()
-        items = [self.loaddict(item) for item in response.json()["results"]]
+        items = [self.loaddict(item) for item in response.json()["rules"]]
         pageinfo = PageInfo(**response.json()["pageInfo"])
 
         return {"results": items, "pageinfo": pageinfo}
