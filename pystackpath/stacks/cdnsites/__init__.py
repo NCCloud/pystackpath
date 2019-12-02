@@ -48,7 +48,6 @@ class CdnSites(BaseSite):
         :return: a stackpath site object with the disabled cdn site
         """
         response = self._client.post(f"{self._base_api}/sites/{self.id}/disable")
-        response.raise_for_status()
         return self
 
     def enable(self):
@@ -57,7 +56,6 @@ class CdnSites(BaseSite):
         :return: a stackpath site object with the enabled cdn site
         """
         response = self._client.post(f"{self._base_api}/sites/{self.id}/enable")
-        response.raise_for_status()
         return self
 
     def assign_certificate(self, certificate: Certificates):
@@ -67,7 +65,6 @@ class CdnSites(BaseSite):
         :return:
         """
         response = self._client.put(f"{self._base_api}/sites/{self.id}/certificates/{certificate.id}")
-        response.raise_for_status()
 
         certificate = Certificates(self._client, f"{self._base_api}/certificates")
         return certificate.loaddict(response.json()["siteCertificate"]["certificate"])

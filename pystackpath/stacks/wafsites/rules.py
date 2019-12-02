@@ -11,7 +11,6 @@ class Rules(BaseObject):
         pagination = pagination_query(first=first, after=after, filter=filter, sort_by=sort_by)
         response = self._client.get(f"{self._base_api}/rules",
                                     params=pagination)
-        response.raise_for_status()
         items = [self.loaddict(item) for item in response.json()["rules"]]
         pageinfo = PageInfo(**response.json()["pageInfo"])
 
@@ -19,7 +18,6 @@ class Rules(BaseObject):
 
     def get(self, rule_id):
         response = self._client.get(f"{self._base_api}/rules/{rule_id}")
-        response.raise_for_status()
         return self.loaddict(response.json()["rule"])
 
     def create(self, **payload):
@@ -29,7 +27,6 @@ class Rules(BaseObject):
         :return: dict with created rule
         """
         response = self._client.post(f"{self._base_api}/rules", json=payload)
-        response.raise_for_status()
         return self.loaddict(response.json()["rule"])
 
     def update(self, **payload):
@@ -39,7 +36,6 @@ class Rules(BaseObject):
         :return: dict with new rule
         """
         response = self._client.patch(f"{self._base_api}/rules/{self.id}", data=json.dumps(payload))
-        response.raise_for_status()
         return self.loaddict(response.json()["rule"])
 
     def delete(self):
@@ -48,7 +44,6 @@ class Rules(BaseObject):
         :return: waf rule configured on a site
         """
         response = self._client.delete(f"{self._base_api}/rules/{self.id}")
-        response.raise_for_status()
         return self
 
     def bulk_delete(self, ruleIds: list):
@@ -57,7 +52,6 @@ class Rules(BaseObject):
         :param ruleIds: The IDs of the rules to delete.
         """
         response = self._client.post(f"{self._base_api}/rules/bulk_delete", data=json.dumps(dict(ruleIds=ruleIds)))
-        response.raise_for_status()
 
     def enable(self):
         """
@@ -65,7 +59,6 @@ class Rules(BaseObject):
         :param rule_id: The ID of the rule to enable
         """
         response = self._client.post(f"{self._base_api}/rules/{self.id}/enable")
-        response.raise_for_status()
 
     def disable(self):
         """
@@ -73,4 +66,3 @@ class Rules(BaseObject):
         :param rule_id: The ID of the rule to disable
         """
         response = self._client.post(f"{self._base_api}/rules/{self.id}/disable")
-        response.raise_for_status()

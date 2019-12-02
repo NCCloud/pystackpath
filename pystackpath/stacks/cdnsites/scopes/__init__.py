@@ -15,7 +15,6 @@ class Scopes(BaseObject):
         }
         response = self._client.get(f"{self._base_api}/scopes",
                                     params={**pagination, **params})
-        response.raise_for_status()
         items = [self.loaddict(item) for item in response.json()["results"]]
         pageinfo = PageInfo(**response.json()["pageInfo"])
 
@@ -33,7 +32,6 @@ class Scopes(BaseObject):
         String	path       The HTTP request path that is handled by a scope.
         """
         response = self._client.post(f"{self._base_api}/scopes", json=payload)
-        response.raise_for_status()
         return self.loaddict(response.json()["scope"])
 
     def delete(self):
@@ -42,7 +40,6 @@ class Scopes(BaseObject):
         :return: delivery domains configured on a site
         """
         response = self._client.delete(f"{self._base_api}/scopes/{self.id}")
-        response.raise_for_status()
         return self
 
     def configuration(self):

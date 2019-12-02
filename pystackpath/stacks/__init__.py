@@ -10,7 +10,6 @@ class Stacks(BaseObject):
     def index(self, first="", after="", filter="", sort_by=""):
         pagination = pagination_query(first=first, after=after, filter=filter, sort_by=sort_by)
         response = self._client.get("/stack/v1/stacks", params=pagination)
-        response.raise_for_status()
         items = []
         for item in response.json()["results"]:
             items.append(self.loaddict(item))
@@ -20,13 +19,11 @@ class Stacks(BaseObject):
 
     def get(self, stack_id):
         response = self._client.get(f"/stack/v1/stacks/{stack_id}")
-        response.raise_for_status()
         return self.loaddict(response.json())
 
     def create(self, accountid, name):
         response = self._client.post("/stack/v1/stacks",
                                      json={"accountId": accountid, "name": str(name)})
-        response.raise_for_status()
         return self.loaddict(response.json()["stack"])
 
     def add_subscriptions(self, subscriptions: list):
@@ -36,7 +33,6 @@ class Stacks(BaseObject):
                 "productIds": subscriptions
             }
         )
-        response.raise_for_status()
         return self
 
     def cancel(self, reason_slug, reason_text=""):
@@ -59,7 +55,6 @@ class Stacks(BaseObject):
                 "reasonText": reason_text
             }
         )
-        response.raise_for_status()
         return self
 
     def purge(self, items: list) -> str:
@@ -73,7 +68,6 @@ class Stacks(BaseObject):
         }
 
         response = self._client.post(f"/cdn/v1/stacks/{self.id}/purge", json=data)
-        response.raise_for_status()
 
         return response.json()["id"]
 
@@ -84,7 +78,6 @@ class Stacks(BaseObject):
         :return: The purge request's progress, ranging from 0.0 to 1.0.
         """
         response = self._client.get(f"/cdn/v1/stacks/{self.id}/purge/{purge_id}")
-        response.raise_for_status()
 
         return response.json()["progress"]
 

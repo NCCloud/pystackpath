@@ -37,6 +37,5 @@ class Metrics(BaseObject):
                 "site_type_filter": site_type_filter
             }
         )
-        response.raise_for_status()
 
         return self.loaddict(response.json())

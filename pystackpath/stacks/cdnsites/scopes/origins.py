@@ -4,7 +4,6 @@ from pystackpath.util import BaseObject, PageInfo
 class Origins(BaseObject):
     def index(self):
         response = self._client.get(f"{self._base_api}")
-        response.raise_for_status()
 
         items = list(map(lambda x: self.loaddict(x), response.json()["results"]))
         pageinfo = PageInfo(**response.json()["pageInfo"])
@@ -24,7 +23,6 @@ class Origins(BaseObject):
         Boolean	dedicated  Whether or not an origin is dedicated to a CDN site.
         """
         response = self._client.post(f"{self._base_api}", json=payload)
-        response.raise_for_status()
         return self.loaddict(response.json()["scopeOrigin"])
 
     def delete(self):
@@ -34,5 +32,4 @@ class Origins(BaseObject):
         :return:
         """
         response = self._client.delete(f"{self._base_api}")
-        response.raise_for_status()
         return self

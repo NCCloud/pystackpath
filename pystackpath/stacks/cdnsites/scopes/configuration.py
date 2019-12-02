@@ -9,7 +9,6 @@ class Configuration(BaseObject):
         :return: site's scope configuration
         """
         response = self._client.get(f"{self._base_api}/configuration")
-        response.raise_for_status()
         return self.loaddict(response.json()["configuration"])
 
     def update(self, **payload):
@@ -19,5 +18,4 @@ class Configuration(BaseObject):
         :return: dict with new configuration
         """
         response = self._client.patch(f"{self._base_api}/configuration", data=json.dumps(payload))
-        response.raise_for_status()
         return self.loaddict(response.json()["configuration"])

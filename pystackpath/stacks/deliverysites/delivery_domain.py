@@ -10,7 +10,6 @@ class DeliveryDomains(BaseObject):
         pagination = pagination_query(first=first, after=after, filter=filter, sort_by=sort_by)
         response = self._client.get(f"{self._base_api}/delivery_domains",
                                     params=pagination)
-        response.raise_for_status()
         items = [self.loaddict(item) for item in response.json()["results"]]
         pageinfo = PageInfo(**response.json()["pageInfo"])
 
@@ -24,7 +23,6 @@ class DeliveryDomains(BaseObject):
         String	domain     An individual delivery domain.
         """
         response = self._client.post(f"{self._base_api}/delivery_domains", json=payload)
-        response.raise_for_status()
         return self.loaddict(response.json()["domain"])
 
     def delete(self):
@@ -33,5 +31,4 @@ class DeliveryDomains(BaseObject):
         :return: delivery domains configured on a site
         """
         response = self._client.delete(f"{self._base_api}/delivery_domains/{self.domain}")
-        response.raise_for_status()
         return self

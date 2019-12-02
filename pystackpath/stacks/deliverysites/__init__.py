@@ -39,7 +39,6 @@ class DeliverySites(BaseSite):
         :return: a stackpath site object with the disabled cdn site
         """
         response = self._client.delete(f"{self._base_api}/sites/{self.id}/cdn")
-        response.raise_for_status()
         return self
 
     def enable_cdn(self):
@@ -48,7 +47,6 @@ class DeliverySites(BaseSite):
         :return: a stackpath site object with the enabled cdn site
         """
         response = self._client.post(f"{self._base_api}/sites/{self.id}/cdn")
-        response.raise_for_status()
         return self
 
     def disable_waf(self):
@@ -57,7 +55,6 @@ class DeliverySites(BaseSite):
         :return: a stackpath site object with the disabled waf site
         """
         response = self._client.delete(f"{self._base_api}/sites/{self.id}/waf")
-        response.raise_for_status()
         return self
 
     def enable_waf(self):
@@ -66,7 +63,6 @@ class DeliverySites(BaseSite):
         :return: a stackpath site object with the enabled waf site
         """
         response = self._client.post(f"{self._base_api}/sites/{self.id}/waf")
-        response.raise_for_status()
         return self
 
     def disable_scripting(self):
@@ -75,7 +71,6 @@ class DeliverySites(BaseSite):
         :return: a stackpath site object with the disabled scripting site
         """
         response = self._client.delete(f"{self._base_api}/sites/{self.id}/scripting")
-        response.raise_for_status()
         return self
 
     def enable_scripting(self):
@@ -84,7 +79,6 @@ class DeliverySites(BaseSite):
         :return: a stackpath site object with the enabled scripting site
         """
         response = self._client.post(f"{self._base_api}/sites/{self.id}/scripting")
-        response.raise_for_status()
         return self
 
     def delivery_domains(self):
