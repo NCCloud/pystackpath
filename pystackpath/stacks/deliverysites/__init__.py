@@ -3,11 +3,6 @@ from pystackpath.stacks.deliverysites.delivery_domain import DeliveryDomains
 
 
 class DeliverySites(BaseSite):
-    def index(self, first="", after="", filter="", sort_by=""):
-        return super(DeliverySites, self).index(first="", after="", filter="", sort_by="")
-
-    def get(self, site_id):
-        return super(DeliverySites, self).get(site_id)
 
     def create(self, **payload):
         """

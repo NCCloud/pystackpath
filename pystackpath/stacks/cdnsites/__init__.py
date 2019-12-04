@@ -4,12 +4,6 @@ from pystackpath.util import BaseSite
 
 
 class CdnSites(BaseSite):
-    def index(self, first="", after="", filter="", sort_by=""):
-        return super(CdnSites, self).index(first="", after="", filter="", sort_by="")
-
-    def get(self, site_id):
-        return super(CdnSites, self).get(site_id)
-
     def create(self, **payload):
         """
         Create a new CDN site
