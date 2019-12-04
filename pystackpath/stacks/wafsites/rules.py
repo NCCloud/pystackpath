@@ -56,13 +56,11 @@ class Rules(BaseObject):
     def enable(self):
         """
         Enable a WAF rule
-        :param rule_id: The ID of the rule to enable
         """
         response = self._client.post(f"{self._base_api}/rules/{self.id}/enable")
 
     def disable(self):
         """
         Disable a WAF rule
-        :param rule_id: The ID of the rule to disable
         """
         response = self._client.post(f"{self._base_api}/rules/{self.id}/disable")
