@@ -43,6 +43,10 @@ class BaseObject(object):
                 d[key] = value
         return d
 
+    def pk(self, value, key="id"):
+        setattr(self, key, value)
+        return self
+
 
 class BaseSite(BaseObject):
     def index(self, first="", after="", filter="", sort_by=""):
