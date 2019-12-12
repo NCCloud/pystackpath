@@ -63,5 +63,13 @@ class CdnSites(BaseSite):
         certificate = Certificates(self._client, f"{self._base_api}/certificates")
         return certificate.loaddict(response.json()["siteCertificate"]["certificate"])
 
+    def targets(self):
+        """
+        Get CNAME targets for site
+        :return: list of CNAME targets
+        """
+        response = self._client.get(f"{self._base_api}/sites/{self.id}/dns/targets")
+        return response.json()["addresses"]
+
     def scopes(self):
         return Scopes(self._client, f"{self._base_api}/sites/{self.id}")
