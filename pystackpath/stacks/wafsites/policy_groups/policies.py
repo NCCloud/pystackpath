@@ -18,7 +18,7 @@ class Policies(BaseObject):
         :param policy_id: The ID of the WAF policy to retrieve
         """
         response = self._client.get(f"{self._base_api}/policies/{policy_id}")
-        return self.loaddict(response.json()["policyGroup"])
+        return self.loaddict(response.json()["policy"])
 
     def enable(self):
         """
