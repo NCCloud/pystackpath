@@ -10,4 +10,4 @@ class ApiLoginUrls(BaseObject):
         :return: A list of API login URLs
         """
         response = self._client.put(f"{self._base_api}/api_login_urls", data=json.dumps(payload))
-        return self.loaddict(response.json()["apiLoginUrls"])
+        return response.json()["apiLoginUrls"]
