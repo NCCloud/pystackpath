@@ -23,5 +23,5 @@ class WafSites(BaseSite):
     def api_urls(self):
         return ApiUrls(self._client, f"{self._base_api}/sites/{self.id}")
 
-    def monitoring(self):
+    def set_monitoring(self):
         return Monitoring(self._client, f"{self._base_api}/sites/{self.id}")
