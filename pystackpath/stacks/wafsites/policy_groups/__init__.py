@@ -21,6 +21,26 @@ class PolicyGroups(BaseObject):
         response = self._client.get(f"{self._base_api}/policy_groups/{policy_group_id}")
         return self.loaddict(response.json()["policyGroup"])
 
+    def update(self, policy_groups):
+        """
+        Update all the policies in the given policy_groups
+
+        :param policy_groups: List of policy groups
+
+        Example:
+            [
+                {
+                    "id": "d694f10e-7faf-4517-bc5b-265e95c04442",
+                    "policies": [{ "enabled": false, "id": "S8758188" }]
+                }
+            ]
+
+        """
+        return self._client.patch(
+            f"{self._base_api}/policy_groups",
+            json={'policyGroups': policy_groups}
+        )        
+
     def enable(self):
         """
         Enable all policies in a WAF policy group

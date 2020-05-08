@@ -71,7 +71,7 @@ cdnsite = sp.stacks().get(stackid).cdnsites().get(cdnsiteid).delete()
 ```python
 cdnsiteid = "19e1a7b2-068f-491c-a95f-b64eae66dd34"
 cdnsite = sp.stacks().get(stackid).cdnsites().get(cdnsiteid).enable()
-cdnsite = cdnsite.enable()
+cdnsite = cdnsite.disable()
 ```
 
 ### Purge a cdn resource and check the purge status.
