@@ -6,7 +6,6 @@ from pystackpath.stacks.wafsites.monitoring import Monitoring
 from pystackpath.stacks.wafsites.policy_groups import PolicyGroups
 from pystackpath.stacks.wafsites.rules import Rules
 from pystackpath.stacks.wafsites.events import Events
-from pystackpath.stacks.wafsites.metrics import Metrics
 from pystackpath.stacks.wafsites.traffic import Traffic
 
 
@@ -30,10 +29,7 @@ class WafSites(BaseSite):
         return Monitoring(self._client, f"{self._base_api}/sites/{self.id}")
 
     def events(self):
-        return Events(self._client, f"{self._base_api}/sites/{self.id}")
-
-    def metrics(self):
-        return Events(self._client, f"{self._base_api}/sites/{self.id}")        
+        return Events(self._client, f"{self._base_api}/sites/{self.id}")     
 
     def traffic(self):
         return Traffic(self._client, f"{self._base_api}")          
