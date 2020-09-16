@@ -4,6 +4,7 @@ from pystackpath.stacks.deliverysites import DeliverySites
 from pystackpath.stacks.wafsites import WafSites
 from pystackpath.stacks.metrics import Metrics
 from pystackpath.stacks.certificates import Certificates
+from pystackpath.stacks.zones import Zones
 
 
 class Stacks(BaseObject):
@@ -95,3 +96,6 @@ class Stacks(BaseObject):
 
     def certificates(self):
         return Certificates(self._client, f"/cdn/v1/stacks/{self.id}")
+
+    def zones(self):
+        return Zones(self._client, f"/dns/v1/stacks/{self.id}")
