@@ -15,13 +15,13 @@ ACCEPTED_SORT_ORDER = ('ASCENDING', 'DESCENDING')
 DEFAULT_DELTA_TIME = 1  # day
 
 
-class Events(BaseObject):
+class Requests(BaseObject):
 
-    def get(self, event_id):
+    def get(self, request_id):
         """
-        Get an Event summary by its ID
+        Get a Request by its ID
         """
-        response = self._client.get(f"{self._base_api}/events/{event_id}")
+        response = self._client.get(f"{self._base_api}/requests/{request_id}")
         return self.loaddict(response.json())
 
     def index(
@@ -40,11 +40,11 @@ class Events(BaseObject):
         sort_order=ACCEPTED_SORT_ORDER[0]
     ):
         """
-        Get all the Events.
+        Get all the Requests.
         You can use the parameters to add options to your request.
         """
 
-        params = Events._common_params(start_date, end_date, filter_action_value, \
+        params = Requests._common_params(start_date, end_date, filter_action_value, \
             filter_result_value, filter_client_ip, filter_reference_id)
 
         if page_request_first:
@@ -67,11 +67,11 @@ class Events(BaseObject):
             raise ValueError(f"{sort_order} is not a valid sort type: {ACCEPTED_SORT_ORDER}") 
         params['sort_order'] = sort_order 
         
-        response = self._client.get(f"{self._base_api}/events", params=params)
+        response = self._client.get(f"{self._base_api}/requests", params=params)
         return self.loaddict(response.json())      
 
 
-    def get_event_statistics(
+    def get_request_statistics(
         self, 
         start_date=None, 
         end_date=None,
@@ -81,12 +81,12 @@ class Events(BaseObject):
         filter_reference_id=None
     ):
         """
-        Get WAF Event statistics
+        Get WAF Request statistics
         You can use the parameters to add options to your request.
         """          
-        params = Events._common_params(start_date, end_date, filter_action_value, \
+        params = Requests._common_params(start_date, end_date, filter_action_value, \
             filter_result_value, filter_client_ip, filter_reference_id)
-        response = self._client.get(f"{self._base_api}/event_stats", params=params)
+        response = self._client.get(f"{self._base_api}/request_stats", params=params)
         return self.loaddict(response.json())
 
 
